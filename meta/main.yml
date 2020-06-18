@@ -1,7 +1,7 @@
 galaxy_info:
   author: baztian
   description: Role for installing Python and associated tools
-  license: GPLv3
+  license: MIT
   min_ansible_version: 2.0
   platforms:
   - name: Ubuntu
@@ -9,4 +9,5 @@ galaxy_info:
     - xenial
   galaxy_tags:
     - python
-dependencies: []
+dependencies:
+  - baztian.pip_venv

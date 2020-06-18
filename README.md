@@ -1,18 +1,19 @@
-Role Name
-=========
+Python ansible role
+===================
+
+![CI](https://github.com/baztian/ansible-python/workflows/CI/badge.svg)
 
 Role to download, install and setup Python plus associated tools.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
     - hosts: servers
+      become: yes
       roles:
          - role: baztian.python
 
 License
 -------
 
-GPLv3
+MIT
