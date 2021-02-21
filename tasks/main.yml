@@ -33,17 +33,17 @@
       - python-lxml
       - python3-lxml
 - name: Install pipenv
-  include_role:
-    name: baztian.pip_venv
-  vars:
+  block:
+  - name: Install pipenv via package manager
+    apt:
       pkg: pipenv
-      version: 2018.11.26
-- name: Install pipenv
-  include_role:
-    name: baztian.pip_venv
-  vars:
-      pkg: pipenv
-      version: 2018.11.26
+  rescue:
+    - name: Install pipenv without package manager
+      include_role:
+        name: baztian.pip_venv
+      vars:
+          pkg: pipenv
+          version: 2018.11.26
 - name: Install tox
   include_role:
     name: baztian.pip_venv
