@@ -44,9 +44,16 @@
       vars:
           pkg: pipenv
           version: 2018.11.26
-- name: Install tox
+- name: install tox
+  apt:
+    pkg: tox
+- name: Gather installed packages
+  package_facts:
+- name: Install tox via pip_venv
   include_role:
     name: baztian.pip_venv
   vars:
       pkg: tox
-      version: 3.14.0
+      version: "{{ tox_version }}"
+  when: "ansible_facts.packages['tox'][0]['version']|default(0)
+    is version (tox_version, '<')"
