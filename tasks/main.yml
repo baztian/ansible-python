@@ -10,7 +10,7 @@
     id: F23C5A6CF475977595C89F51BA6932366A755776
     keyserver: keyserver.ubuntu.com
 - name: Extract distribution base name (works on linux mint as well)
-  command: grep -oP 'UBUNTU_CODENAME=\K.*' /etc/os-release
+  command: grep -oP '{{ "VERSION" if ansible_distribution == "Debian" else "UBUNTU" }}_CODENAME=\K.*' /etc/os-release
   register: distro
   changed_when: False
 - name: Add deadsnakes PPA (deb)
