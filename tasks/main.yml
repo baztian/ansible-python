@@ -11,6 +11,14 @@
   apt_key:
     id: F23C5A6CF475977595C89F51BA6932366A755776
     keyserver: keyserver.ubuntu.com
+- name: Add deadsnakes PPA
+  apt_repository:
+    repo: ppa:deadsnakes/ppa
+    state: present
+- name: Update apt cache.
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
 - name: Install Python and associated packages
   apt:
     pkg:
