@@ -34,22 +34,5 @@
       - python3.10-dev
       - python3.10-venv
       - python3-lxml
-- name: Install pipenv
-  include_role:
-    name: baztian.pip_venv
-  vars:
-      pkg: pipenv
-      version: 2023.10.3
-- name: Install tox
-  apt:
-    pkg: tox
-- name: Gather installed packages
-  package_facts:
-- name: Install tox via pip_venv
-  include_role:
-    name: baztian.pip_venv
-  vars:
-      pkg: tox
-      version: "{{ tox_version }}"
-  when: "ansible_facts.packages['tox'][0]['version']|default(0)
-    is version (tox_version, '<')"
+      - pipenv
+      - tox
