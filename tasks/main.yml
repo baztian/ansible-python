@@ -11,9 +11,14 @@
   apt_key:
     id: F23C5A6CF475977595C89F51BA6932366A755776
     keyserver: keyserver.ubuntu.com
+    keyring: /etc/apt/trusted.gpg.d/deadsnakes-ppa.gpg
+- name: Extract distribution base name (works on linux mint as well)
+  command: grep -oP '{{ "VERSION" if ansible_distribution == "Debian" else "UBUNTU" }}_CODENAME=\K.*' /etc/os-release
+  register: distro
+  changed_when: False
 - name: Add deadsnakes PPA
   apt_repository:
-    repo: ppa:deadsnakes/ppa
+    repo: "deb [signed-by=/etc/apt/trusted.gpg.d/deadsnakes-ppa.gpg] https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu {{ distro.stdout }} main"
     state: present
 - name: Update apt cache.
   apt:
@@ -22,8 +27,6 @@
 - name: Install Python and associated packages
   apt:
     pkg:
-      - python2.7
-      - python2.7-dev
       - python3
       - python3-dev
       - python3-venv
@@ -31,22 +34,5 @@
       - python3.10-dev
       - python3.10-venv
       - python3-lxml
-- name: Install pipenv
-  include_role:
-    name: baztian.pip_venv
-  vars:
-      pkg: pipenv
-      version: 2023.10.3
-- name: Install tox
-  apt:
-    pkg: tox
-- name: Gather installed packages
-  package_facts:
-- name: Install tox via pip_venv
-  include_role:
-    name: baztian.pip_venv
-  vars:
-      pkg: tox
-      version: "{{ tox_version }}"
-  when: "ansible_facts.packages['tox'][0]['version']|default(0)
-    is version (tox_version, '<')"
+      - pipenv
+      - tox
